@@ -37,6 +37,5 @@ $(document).ready(function(){
 
     socket.on("startGame", function() {
         alert('Game is starting!');
-        socket.emit('addCard');
     })
 })
