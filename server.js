@@ -17,7 +17,8 @@ var server = app.listen(8000, function(){
 
 ///////////////////// CLASSES /////////////////////////
 class Player {          ////////////PLAYER/////////////
-  constructor(name) {
+  constructor(name, id) {
+    this.id = id;
     this.username = name;
     this.points = 0;
     this.choice = 1;
@@ -88,8 +89,18 @@ class Game {
 
 }
 
+var players = [];
 
 var io = require('socket.io').listen(server);
 io.sockets.on('connection', function (socket) {
     console.log(socket.id);
+
+    socket.on("userCreate", function(data){
+        players.push(new Player(data.name, socket.id));
+
+        // send all players/info to newb
+        socket.emit("newPlayerSetup", {response: players});
+        // send newb info to all players
+        socket.broadcast.emit("newPlayerAdded", {response: players[players.length-1]});
+    })
 })

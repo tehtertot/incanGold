@@ -4,7 +4,7 @@ $(document).ready(function(){
     var username = prompt("What is your name?");
 
     socket.emit("userCreate", {name: username});
-
+    
     socket.on("newPlayerSetup", function(data) {
       for (let p in data.response) {
         let pBox = document.createElement('div');
