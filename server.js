@@ -1,5 +1,3 @@
-//Graham was here...
-
 var express = require("express");
 var path = require("path");
 var app = express();
@@ -93,14 +91,17 @@ class Game {
 
 var players = [];
 var deck = new Deck();
+var roundTreasure = 0;
+var playersInRound = [];
 
 var io = require('socket.io').listen(server);
 io.sockets.on('connection', function (socket) {
-    console.log(socket.id);
+    function checkStatus(){
+        
+    }
 
     socket.on("userCreate", function(data){
         players.push(new Player(data.name, socket.id));
-
         // send all players/info to newb
         socket.emit("newPlayerSetup", {response: players});
         // send newb info to all players
@@ -108,9 +109,12 @@ io.sockets.on('connection', function (socket) {
 
         if (players.length == 2){
           io.emit("startGame");
-          
-        }
+          deck.shuffle();
+          var card = deck.drawCard();
+          io.emit("showCard", {card: card});
 
+          io.emit("showBtns", {players: players});
+        }
     })
 
     socket.on("addCard", function(data){
@@ -118,4 +122,12 @@ io.sockets.on('connection', function (socket) {
         io.emit("showCard", {card: card});
         console.log(card);
     })
+
+    socket.on("keepPlaying", function(){
+        playersInRound.push(socket.id);
+        checkStatus();
+    });
+    socket.on("notPlaying", function(){
+        
+    });
 })
