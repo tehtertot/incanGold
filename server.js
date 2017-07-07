@@ -106,6 +106,11 @@ io.sockets.on('connection', function (socket) {
         // send newb info to all players
         socket.broadcast.emit("newPlayerAdded", {response: players[players.length-1]});
 
+        if (players.length == 2){
+          io.emit("startGame");
+          
+        }
+
     })
 
     socket.on("addCard", function(data){
@@ -114,4 +119,3 @@ io.sockets.on('connection', function (socket) {
         console.log(card);
     })
 })
-
