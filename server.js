@@ -40,7 +40,7 @@ class Deck {             ///////////DECK/////////////
   constructor() {
     this.cards = [];
     this.inPlay = [];
-    setDeck();
+    this.setDeck();
   }
   setDeck() {
     let hazards = ['gas', 'monster', 'cavein', 'flood', 'fire'];
@@ -86,6 +86,7 @@ class Game {
 }
 
 var players = [];
+var deck = new Deck();
 
 var io = require('socket.io').listen(server);
 io.sockets.on('connection', function (socket) {
@@ -98,5 +99,12 @@ io.sockets.on('connection', function (socket) {
         socket.emit("newPlayerSetup", {response: players});
         // send newb info to all players
         socket.broadcast.emit("newPlayerAdded", {response: players[players.length-1]});
+
+    })
+
+    socket.on("addCard", function(data){
+        var card = deck.drawCard();
+        io.emit("showCard", {card: card});
     })
 })
+
