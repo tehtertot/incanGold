@@ -31,12 +31,12 @@ $(document).ready(function(){
         for(let p in data.allPlayers){
             document.getElementById(data.allPlayers[p].id).innerHTML = "<h4>" + data.allPlayers[p].username + "</h4><p>Total Treasure: " + data.allPlayers[p].points + "</p><p>Current Treasure: " + data.allPlayers[p].currentTreasure + "</p>"
         }
-    })
+    });
 
     socket.on("startGame", function() {
         alert('Game is starting!');
-    })
 
+      });
     socket.on("showBtns", function(data){
         for(let p in data.players){
             if(data.players[p]){
@@ -60,8 +60,8 @@ $(document).ready(function(){
     socket.on("newRound", function(round){
         $("#cards_wrap").html("");
         $("#cards_wrap").html("<legend>Round " + round + "</legend>");
-        // alert("New Round Starting");
-        // socket.emit("startRound");
+        alert("New Round Starting");
+        socket.emit("startRound");
     })
     socket.on("hasWinner", function(winner){
         alert(`${winner.username} has won!`);

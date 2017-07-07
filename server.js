@@ -116,7 +116,7 @@ io.sockets.on('connection', function (socket) {
                 playersAboutToLeave = {};
             }
 
-            
+
             //if the card drawn is a duplicate of a hazard card already in play, all players still playing lose all their currentTreasure and the round is over
 
             //one of the duplicate hazard cards is removed from the deck
@@ -138,7 +138,7 @@ io.sockets.on('connection', function (socket) {
                                 }
                             }
                             playerResponses = 0;
-                            endRound();
+                            setTimeout(endRound, 1000);
                             return;
                         }
                     }
@@ -237,7 +237,7 @@ io.sockets.on('connection', function (socket) {
     socket.on("notPlaying", function(){
         delete playersStillPlaying[socket.id];
         playersAboutToLeave[socket.id] = true;
-        playerResponses++;    
+        playerResponses++;
         checkStatus();
     });
 })
