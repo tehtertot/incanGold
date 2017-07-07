@@ -32,6 +32,12 @@ class Card {              ////////////CARD////////////
     this.type = type;
     this.val = val;
     this.name = name;
+    if (type == "treasure") {
+      this.img = val + name + ".png";
+    }
+    else {
+      this.img = name + ".png";
+    }
   }
 }
 
@@ -43,9 +49,10 @@ class Deck {             ///////////DECK/////////////
   }
   setDeck() {
     let hazards = ['gas', 'monster', 'cavein', 'flood', 'fire'];
+    let treasure = ['emerald', 'amethyst', 'topaz', 'ruby', 'sapphire'];
     for (let i = 1; i < 16; i++) {
       this.cards.push(new Card('hazard', 0, hazards[i%5-1]));
-      this.cards.push(new Card('treasure', i, 'treasure'));
+      this.cards.push(new Card('treasure', i, treasure[i%5-1]));
     }
   }
   addArtifact(round) {
@@ -76,12 +83,9 @@ class Deck {             ///////////DECK/////////////
 /////////////////// GAME PLAY ////////////////////////////////
 class Game {
   constructor() {
-    this.players = [];
     this.round = 1;
   }
-  addPlayer(p) {
-    this.players.push(p);
-  }
+
 }
 
 

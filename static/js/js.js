@@ -9,14 +9,14 @@ $(document).ready(function(){
       for (let p in data.response) {
         let pBox = document.createElement('div');
         pBox.className = "player";
-        pBox.innerHTML = "<h4>" + data.response[p].name + "</h4><p>" + data.response[p].points + "</p>";
+        pBox.innerHTML = "<h4>" + data.response[p].username + "</h4><p>" + data.response[p].points + "</p>";
         document.getElementById('players_wrap').appendChild(pBox);
       }
     });
     socket.on("newPlayerAdded", function(data) {
       let pBox = document.createElement('div');
       pBox.className = "player";
-      pBox.innerHTML = "<h4>" + data.response.name + "</h4><p>" + data.response.points + "</p>";
+      pBox.innerHTML = "<h4>" + data.response.username + "</h4><p>" + data.response.points + "</p>";
       document.getElementById('players_wrap').appendChild(pBox);
     });
 })
