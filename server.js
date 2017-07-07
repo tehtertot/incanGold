@@ -1,5 +1,3 @@
-//Graham was here...
-
 var express = require("express");
 var path = require("path");
 var app = express();
@@ -100,7 +98,6 @@ io.sockets.on('connection', function (socket) {
 
     socket.on("userCreate", function(data){
         players.push(new Player(data.name, socket.id));
-
         // send all players/info to newb
         socket.emit("newPlayerSetup", {response: players});
         // send newb info to all players
@@ -114,4 +111,3 @@ io.sockets.on('connection', function (socket) {
         console.log(card);
     })
 })
-
