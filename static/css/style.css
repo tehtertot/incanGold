@@ -8,7 +8,23 @@ body{
     margin: 0 auto;
     width: 960px;
 }
+h1{
+    text-align: center;
+    color: #333;
+    font-size: 1.5em;
+}
+#gold{
+    font-size: 1.75em;
+    color: #d1a82e;
+}
+.silver{
+    color: #a4a4a4;
+}
+h4{
+    color: #333;
+}
 legend{
+    color: #333;
     font-size: 1.5em;
 }
 #players_wrap, #cards_wrap{
@@ -16,7 +32,13 @@ legend{
 }
 .player{
     display: inline-block;
-    width: calc(21% - 4px);
+    width: calc(19% - 4px);
     padding: 2%;
+    margin: 1%;
     border: 1px solid #a4a4a4;
+}
+.card{
+    display: inline-block;
+    width: calc(20% - 4px);
+    height: auto;
 }

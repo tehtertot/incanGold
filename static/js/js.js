@@ -17,6 +17,7 @@ $(document).ready(function(){
         pBox.className = "player";
         pBox.innerHTML = "<h4>" + data.response.username + "</h4><p>" + data.response.points + "</p>";
         document.getElementById('players_wrap').appendChild(pBox);
+
     });
 
     $("#add_card").click(function(){
