@@ -241,7 +241,7 @@ io.sockets.on('connection', function (socket) {
                 }
             }
             roundTreasure += card.val % Object.keys(playersStillPlaying).length;
-            io.emit("cleanUpLastRound");
+            io.emit("cleanUpLastRound", round);
             io.emit("showCard", {card: card, allPlayers: players});
             io.emit("showBtns", {players: playersStillPlaying});
             playerResponses = 0;

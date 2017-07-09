@@ -61,7 +61,7 @@ $(document).ready(function(){
         alert("New Round Starting");
         socket.emit("startRound");
     })
-    socket.on("cleanUpLastRound", function(){
+    socket.on("cleanUpLastRound", function(round){
         $("#cards_wrap").html("");
         $("#cards_wrap").html("<legend>Round " + round + "</legend>");
     })
