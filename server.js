@@ -101,6 +101,7 @@ var playerResponses = 0;
 var io = require('socket.io').listen(server);
 io.sockets.on('connection', function (socket) {
     function checkStatus(){
+      var roundOver = false;
         if(playerResponses + Object.keys(playersAlreadyGone).length == players.length){
             // count how many players left
             let countLeaving = Object.keys(playersAboutToLeave).length;
@@ -125,7 +126,7 @@ io.sockets.on('connection', function (socket) {
             //for everyone staying
             if (Object.keys(playersStillPlaying).length > 0){
                 var card = deck.drawCard();
-                io.emit("showCard", {card: card, allPlayers: players});
+                //This checks to see if the draw is a duplicate hazard
                 if(card.val == 0){
                     for(let i=0; i<deck.inPlay.length-1; i++){
                         if(deck.inPlay[i].name == card.name){
@@ -137,9 +138,12 @@ io.sockets.on('connection', function (socket) {
                                     }
                                 }
                             }
-                            playerResponses = 0;
-                            setTimeout(endRound, 1000);
-                            return;
+                            //Going to try and stick all the calls for end round in a single if check at the end.
+                            // playerResponses = 0;
+                            // setTimeout(endRound, 1000);
+                            // return;
+                            roundOver = true;
+
                         }
                     }
                 }else{
@@ -152,11 +156,18 @@ io.sockets.on('connection', function (socket) {
                     }
                 }
                 roundTreasure += card.val % Object.keys(playersStillPlaying).length;
+                io.emit("showCard", {card: card, allPlayers: players});
                 io.emit("showBtns", {players: playersStillPlaying});
-            }else{
-                playerResponses = 0;
-                endRound();
-                return;
+            }
+            else{
+                roundOver = true;
+                // playerResponses = 0;
+                // endRound();
+                // return;
+            }
+            if(roundOver){
+              roundOver = false;
+              setTimeout(endRound, 1000);
             }
             playerResponses = 0;
             function endRound(){
@@ -187,28 +198,34 @@ io.sockets.on('connection', function (socket) {
     }
 
     socket.on("userCreate", function(data){
-        players.push(new Player(data.name, socket.id));
-        playersStillPlaying[socket.id] = true;
-        // send all players/info to newb
-        socket.emit("newPlayerSetup", {response: players});
-        // send newb info to all players
-        socket.broadcast.emit("newPlayerAdded", {response: players[players.length-1]});
-
-        if (players.length == 2){
-          io.emit("startGame");
-          deck.shuffle();
-          var card = deck.drawCard();
-          for(let p in playersStillPlaying){
-              for(let idx in players){
-                  if (players[idx].id == p){
-                      players[idx].currentTreasure += Math.floor(card.val / Object.keys(playersStillPlaying).length);
-                  }
-              }
+      //Hardcode how many players to allow here...
+      //and in the next if block
+        if(players.length < 2){
+          players.push(new Player(data.name, socket.id));
+          playersStillPlaying[socket.id] = true;
+          // send all players/info to newb
+          socket.emit("newPlayerSetup", {response: players});
+          // send newb info to all players
+          socket.broadcast.emit("newPlayerAdded", {response: players[players.length-1]});
+          //Second place to hardcode number of players for a game
+          if (players.length == 2){
+            io.emit("startGame");
+            deck.shuffle();
+            var card = deck.drawCard();
+            for(let p in playersStillPlaying){
+                for(let idx in players){
+                    if (players[idx].id == p){
+                        players[idx].currentTreasure += Math.floor(card.val / Object.keys(playersStillPlaying).length);
+                    }
+                }
+            }
+            roundTreasure += card.val % Object.keys(playersStillPlaying).length;
+            io.emit("showCard", {card: card, allPlayers: players});
+            io.emit("showBtns", {players: playersStillPlaying});
           }
-          roundTreasure += card.val % Object.keys(playersStillPlaying).length;
-          io.emit("showCard", {card: card, allPlayers: players});
-          io.emit("showBtns", {players: playersStillPlaying});
         }
+     
+  
     })
 
     socket.on("startRound", function(){
@@ -224,6 +241,7 @@ io.sockets.on('connection', function (socket) {
                 }
             }
             roundTreasure += card.val % Object.keys(playersStillPlaying).length;
+            io.emit("cleanUpLastRound");
             io.emit("showCard", {card: card, allPlayers: players});
             io.emit("showBtns", {players: playersStillPlaying});
             playerResponses = 0;
@@ -241,3 +259,4 @@ io.sockets.on('connection', function (socket) {
         checkStatus();
     });
 })
+

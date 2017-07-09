@@ -1,7 +1,10 @@
 body{
     font-size: 16px;
     font-family: Arial, Helvetica, sans-serif;
-    color: #cdcdcd;
+    color: white;
+    background-image: url("/img/cave_entrance4.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 #wrap{
@@ -21,25 +24,48 @@ h1{
     color: #a4a4a4;
 }
 h4{
-    color: #333;
+    color: #d1a82e;
 }
 legend{
-    color: #333;
+    color: white;
     font-size: 1.5em;
 }
 #players_wrap, #cards_wrap{
-    border: 2px solid #333;
+    border: 2px solid white;
+    
 }
+
 .player{
+    background-color: rgba(145, 142, 142, 0.5);
     display: inline-block;
     width: calc(19% - 4px);
     padding: 2%;
     margin: 1%;
-    border: 1px solid #a4a4a4;
+    border: 1px solid white;
     vertical-align: top;
 }
 .card{
     display: inline-block;
     width: calc(20% - 4px);
     height: auto;
+}
+
+button{
+    width: calc(50% - 1px);
+    height: 40px;
+}
+
+.play{
+    background-image: url("/img/keep_playing.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    text-align: right;
+}
+
+.leave{
+    text-align: left;
+    background-image: url("/img/leave.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: right;
 }

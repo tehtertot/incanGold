@@ -58,10 +58,12 @@ $(document).ready(function(){
         }
     })
     socket.on("newRound", function(round){
-        $("#cards_wrap").html("");
-        $("#cards_wrap").html("<legend>Round " + round + "</legend>");
         alert("New Round Starting");
         socket.emit("startRound");
+    })
+    socket.on("cleanUpLastRound", function(){
+        $("#cards_wrap").html("");
+        $("#cards_wrap").html("<legend>Round " + round + "</legend>");
     })
     socket.on("hasWinner", function(winner){
         alert(`${winner.username} has won!`);
@@ -78,3 +80,4 @@ $(document).on("click", ".leave", function(){
     $(".play").remove();
     $(".leave").remove();
 })
+
