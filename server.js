@@ -182,6 +182,7 @@ io.sockets.on('connection', function (socket) {
                             winner = players[i];
                         }
                     }
+                    players = [];
                     io.emit("hasWinner", winner);
                     return;
                 }
