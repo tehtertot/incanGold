@@ -171,7 +171,7 @@ io.sockets.on('connection', function (socket) {
             }
             playerResponses = 0;
             function endRound(){
-                deck.cards.concat(deck.inPlay);
+                deck.cards = deck.cards.concat(deck.inPlay); //This should fix the null references, deck wasn't properly concatanating
                 deck.inPlay = [];
                 deck.shuffle();
                 round++;
