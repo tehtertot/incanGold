@@ -47,6 +47,7 @@ class Deck {             ///////////DECK/////////////
     this.cards = [];
     this.inPlay = [];
     this.setDeck();
+    this.shuffle();
   }
   setDeck() {
     let hazards = ['gas', 'monster', 'cavein', 'flood', 'fire'];
@@ -212,7 +213,7 @@ io.sockets.on('connection', function (socket) {
           //Second place to hardcode number of players for a game
           if (players.length == 3){
             io.emit("startGame");
-            deck.shuffle();
+            deck = new Deck();
             var card = deck.drawCard();
             for(let p in playersStillPlaying){
                 for(let idx in players){
