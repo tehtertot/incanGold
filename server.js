@@ -202,7 +202,7 @@ io.sockets.on('connection', function (socket) {
     socket.on("userCreate", function(data){
       //Hardcode how many players to allow here...
       //and in the next if block
-        if(players.length < 2){
+        if(players.length < 3){
           players.push(new Player(data.name, socket.id));
           playersStillPlaying[socket.id] = true;
           // send all players/info to newb
@@ -210,7 +210,7 @@ io.sockets.on('connection', function (socket) {
           // send newb info to all players
           socket.broadcast.emit("newPlayerAdded", {response: players[players.length-1]});
           //Second place to hardcode number of players for a game
-          if (players.length == 2){
+          if (players.length == 3){
             io.emit("startGame");
             deck.shuffle();
             var card = deck.drawCard();
